@@ -1,0 +1,63 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#define fil 20
+#define col 20
+using namespace std;
+
+void espiral(int mat[fil][col],int n);
+void mostrar(int mat[fil][col], int n);
+
+int main()
+{int mat[fil][col],n;
+ cout<<"Ingrese tamano de la matriz: ";
+ cin>>n;
+ espiral(mat,n);
+ mostrar(mat,n);
+
+ getch();
+ return 0;
+ 
+	
+}
+
+
+void mostrar(int mat[fil][col], int n)
+{
+    int i, j;
+	cout<<endl;
+    for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{cout<<mat[i][j]<<" ";
+			}
+    cout<<endl;
+		}
+} 
+
+
+void espiral(int mat[fil][col], int n){
+	int i, j, c = 1;
+	for (i = 0; i < n / 2; i++){
+		for (j=i ; j <n-i ; j++){
+			mat[i][j] = c;
+			c++;
+		}
+		for (j = i; j < n - 1-i; j++){
+			mat[j+1][n-1 - i] = c;
+			c++;
+		}
+		c--;
+		for (j = n - 1 - i; j > i; j--){
+			mat[n-1-i][j] = c;
+			c++;
+		}
+		for (j = n - 1 - i; j > i; j--){
+			mat[j][i] = c;
+			c++;
+		}
+	}
+	if (n % 2 != 0){
+		mat[n / 2][n / 2] = n*n;
+	}
+}
+
