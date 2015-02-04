@@ -1,0 +1,201 @@
+//PRACTICO1
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "math.h"
+#include "stdlib.h"
+#define PI 3.141516
+using namespace std;
+float volumen(float s);
+float ganancia(float o,int p);
+int suma(int p);
+int sum_digitos(int p);
+float cambiobase_Dec(float b,int p);
+int invertir(int p);
+int eliminar_pares (int p);
+void main()
+{int p,opc,h,m,r,hr,n1,n2,res,c,i,d;
+float vol,s,y,x,base;
+do{
+cout<<endl<<endl<<" PRACTICO 1 ";
+cout<<endl<<endl<<"--------MENU---------";
+cout<<endl<<"1.-Hallar el volumen de la circunferencia.";
+cout<<endl<<"2.-Un trabajador gana por horas trabajadas P Bs.
+si trabaja X horas en un mes cuanto es el 80% de su ganacia en un mes";
+cout<<endl<<"3.-introducir hrs,minutos y seg y hacerlo en
+formato de 12 hrs.";
+cout<<endl<<"4.-suma,resta y multiplicacion.";
+cout<<endl<<"5.-Hallar la suma de los primeros N numeros
+naturales";
+cout<<endl<<"6.-Mostrar los primero N terminos de la serie
+siguiente 2,6,10,14..";
+cout<<endl<<"7.-Hallar la suma de los digitos de un numero.";
+cout<<endl<<"8.-Cambio de un numero en base N a base decimal";
+cout<<endl<<"9.-Introducir un numero y de ese número eliminar
+todos los pares:";
+cout<<endl<<"10.-Invertir un numero natural";
+cout<<endl<<"0.- salir";
+cout<<endl<<"seleccione una opcion: ";
+cin>> opcion;
+system("cls");
+switch (opcion){
+case 1:cout<<"ingrese el radio:";
+cin>>s;
+vol = volumen(s);cout<<"el volumen de la circunferencia
+es:"<<vol;
+break;
+case 2:cout<<"ingrese la ganancia por hora trabajada:";
+cin>>p;
+cout<<"ingrese la cantidad de horas trabajaas al
+mes;";
+cin>>o;
+y = 0.8*ganancia(p, o);
+cout<<"el 80% de la ganacia es:"<<y;
+break;
+case 3: do{
+cout<<"introducir las horas: ";
+cin>>h;
+ }while(h>24);
+do{
+cout<<"intoducir los minutos:";
+cin>>m;
+ }while(m>=60);
+do{
+cout<<"intoducir los segundos:";
+cin>>s;
+ }while(s>=60);
+if(h ==24)
+{h = 0;
+}
+if ( h >12)
+{ hr = h-12;
+ cout<<"son
+las "<<hr<<":"<<m<<":"<<s<<"p.m.";
+}
+else
+{cout<<"son
+las "<<h<<":"<<m<<":"<<s<<"a.m.";
+}
+break;
+case 4:
+cout<<"introducir el primer valor: ";
+cin>> n1;
+cout<<"introducir el segundo valor: ";
+cin>>n2;
+s = n1 + n2;
+resta = n1-n2;
+m = n1*n2;
+cout<<"la suma de "<<n1<<" y "<<n2<<"
+es: "<<s<<endl;
+cout<<"la resta de "<<n1<<" y "<<n2<<"
+es: "<<resta<<endl;
+cout<<"la multiplicacion de "<<n1<<" y "<<n2<<"
+es: "<<m<<endl;
+break;
+case 5:
+cout<<"ingrese el numero:";cin>> p;
+s = suma(p);
+cout<<"la suma de los primeros "<<p<<" numeros
+naturales es: "<<s;
+break;
+case 6:
+cout<<"ingrese la cantidad de terminos q requiere
+de la serie: ";
+cin>>p;
+c = 2;
+for (i=1; i<=p ;i++)
+{ cout<<c<<",";
+c = c + 4;
+}
+break;
+case 7:
+cout<<"ingrese el numero: ";
+cin>>n;
+s = sum_digitos(p);
+cout<<"la suma de los digitos es: "<<s;
+break;
+case 8:cout<<" ingrese la base del numero a
+convertir: ";
+cin>> base;
+cout<<"ingrese el numero a convertir: ";
+cin>> p;
+cout<<" el numero en base 10
+es :"<<cambiobase_Dec(base,p);
+break;
+case 9:cout<<"ingrese un numero: ";
+cin>>p;
+n1 = eliminar_pares(p);
+n2 = invertir(n1);
+cout<<"el numero sin digitos pares es: "<<n2;
+break;
+case 10:
+cout<<"ingrese el numero: ";
+cin>>p;
+n1 = invertir(p);
+cout<<"el numero invertido es: "<<n1;
+break;
+case 0:
+cout<<"salir";
+break;
+default:cout<<"error";
+break;
+}
+getch();
+}while (opcion != 0);
+}float volumen(float s)
+{float v;
+v= (4*PI*s*s*s)/3;
+;
+return (v);
+}
+float ganancia(float o,int p)
+{float d;
+d=o*p;
+return (d);
+}
+int suma(int p)
+{int sum = 0, j;
+for ( j=1;j<=n;j++)
+sum= sum +j;
+return (sum);
+}
+int sum_digitos(int p)
+{int e,sum;
+sum = 0;
+while( p>0)
+{ e = n%10;
+ p =p/10;
+ sum = sum + e;
+}
+ return (sum);
+}
+float cambiobase_Dec(float b,int p)
+{int j=0,r,a,s=0;
+while (p > 0)
+{r = p % 10;
+p = p/10;
+a = r*pow(b,j);
+s = s+a;
+j++;
+}
+return (s);
+}
+int eliminar_pares (int p)
+{int d,imp = 0;
+while(p > 0)
+{d = p%10;
+ p = p/10;
+if(d%2 != 0)
+ imp = imp *10 + d;
+}
+return (imp);}
+int invertir(int p)
+{int r,inv;
+inv = 0;
+while (p>0)
+{r = p %10;
+ p = p/10;
+ inv = inv *10 + r;
+}
+return (inv);
+}
