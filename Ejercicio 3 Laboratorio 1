@@ -1,0 +1,66 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include <string.h>
+#include<string>
+
+using namespace std;
+
+
+void valorMensaje(string cad);
+
+
+int main()
+{string cad,b;
+ char x;
+ int opcion,a;
+	cout<<"Introduzca mensaje: ";
+	getline(cin,cad);
+	valorMensaje(cad);
+	getch();
+  getch();
+  return 0;
+}
+
+
+void valorMensaje(string cad)
+{int i,p=0,a=cad.length();
+
+ for(i=0;i<a;i++)
+	{if((cad[i]>0)&&(cad[i]<32))
+		{p=p+20;
+		}
+		if(cad[i]==32 || cad[i]==255)
+		{p=p;
+		}
+	 if((cad[i]<97)&&(cad[i]>90))
+		 {p=p+20;
+		 }
+	if((cad[i]<48)&&(cad[i]>32))
+		{p=p+20;
+		}
+	if((cad[i]<65)&&(cad[i]>57))
+		{p=p+20;
+		}
+	if((cad[i]<254)&&(cad[i]>122))
+		{p=p+20;
+		}
+	if((cad[i]<123)&&(cad[i]>96))
+		{p=p+5;
+		}
+	if((cad[i]<58)&&(cad[i]>47))
+		{p=p+100;
+		}
+	}
+	cout<<endl<<"Debera pagar "<<p<<" bs.";
+}
+
+
+
+
+
+
+
+
+
+
