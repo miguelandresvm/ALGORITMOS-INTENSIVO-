@@ -1,0 +1,206 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <time.h>
+#include <string.h>
+#include <ctype.h>
+#define fil 10
+#define col 10
+using namespace std;
+
+struct palabra
+{char cad[30];
+};
+
+struct vec
+{palabra v[30];
+};
+
+struct telemento
+{int mat[fil][col];
+};
+
+void ingresar_cadenas(vec v[], int n)
+{int i,j;
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{cout<<"Ingrese palabra: ";
+			cin>>v[i].v[j].cad;
+			}
+		}
+}
+void mostrar (vec v[], int n);
+void bolivia (vec M[fil][col], int n, vec v[]);
+void mostrar2(vec M[fil][col], int n, vec v[]);
+void llenar_auto(telemento M[fil][col], int n);
+void mostrar2 (telemento M[fil][col], int n);
+void cambio_dp(int M[fil][col], int n);
+void cambio_ds(int M[fil][col], int n);
+void cambio (int A[fil][col], int n, int B[fil][col]);
+void intercambio(telemento M[fil][col], int n);
+void mostrar(telemento M[fil][col], int n);
+int main(){
+	int opcion, n;
+	palabra V[30];
+	vec v[30];
+	vec M[fil][col];
+	telemento Mat[fil][col];
+
+		do{
+		system("cls");
+		cout<<"******* M E N U *********";
+		cout<<endl<<"1.- Ejercicio 12";
+		cout<<endl<<"2.- Ejercicio 13";
+		cout<<endl<<"0.- Salir";
+		cout<<endl<<"Seleccionar opcion: ";
+		cin >> opcion;
+		switch(opcion){
+			case 1: cout<<"Ingrese cantidad de filas=columnas: ";
+					cin>>n;
+					ingresar_cadenas(v,n);
+					mostrar(v,n);
+					bolivia(M,n,v);
+					mostrar2(M,n,v);
+					getch();
+					break;
+			case 2: cout<<"Ingrese cantidad de filas=columnas: ";
+					cin>>n;
+					cout<<endl;
+					llenar_auto(Mat,n);
+					mostrar2(Mat,n);
+					intercambio(Mat,n);
+					mostrar(Mat,n);
+					getch();
+					break;
+		}
+		}while(opcion !=0);
+	getch();
+	return(1);
+}
+
+
+void mostrar (vec v[], int n)
+{int i,j;
+cout<<endl<<"Vector: "<<endl;
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{cout<<v[i].v[j].cad;
+			cout<<" ";
+			}
+		cout<<endl;
+		}
+}
+
+void bolivia (vec M[fil][col], int n, vec v[])
+{int i,j,k=0,l, tam;
+char aux[30];
+	for(i=0;i<n;i++)
+			{for(j=0;j<n;j++)
+			{tam= strlen(v[i].v[j].cad);
+				for(k=0;k<tam;k++)
+					{strcpy(aux,v[i].v[j].cad);
+					}aux[tam]='\0';
+				for(l=0;l<n;l++)
+					{strcpy(M[i][j].v[l].cad,aux);
+					}
+			}
+		}
+}
+
+void mostrar2(vec M[fil][col], int n, vec v[])
+{int i,j,l;
+	cout<<endl<<"Matriz: "<<endl;
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{for(l=0;l<n;l++)
+				{cout<<M[i][j].v[l].cad;
+				cout<<" ";
+			}
+		}
+	cout<<endl;
+	}
+}
+
+void llenar_auto(telemento M[fil][col], int n)
+{int i,j,k,l;
+srand(time(NULL));
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{for(k=0;k<n;k++)
+				{for(l=0;l<n;l++)
+					{M[i][j].mat[k][l]=rand() %10;
+					}
+				}
+			}
+	}
+}
+ 
+void mostrar2 (telemento M[fil][col], int n)
+{int i, j,k,l;
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{for(k=0;k<n;k++)
+				{for(l=0;l<n;l++)
+					{cout<<M[i][j].mat[k][l]<<" ";
+					}cout<<" ";
+				}cout<<endl;
+			}cout<<endl;
+		}cout<<endl;
+}
+
+
+void cambio_dp(int M[fil][col], int n)
+{int i, aux;
+	for(i=0;i<n/2;i++)
+		{aux= M[i][i];
+		M[i][i]= M[n-1-i][n-1-i];
+		M[n-1-i][n-1-i]= aux;
+		}
+}
+
+void cambio_ds(int M[fil][col], int n)
+{int i, aux;
+	for(i=0;i<n/2;i++)
+		{aux=M[i][n-1-i];
+		M[i][n-1-i]=M[n-1-i][i];
+		M[n-1-i][i]=aux;
+		}
+}
+
+void cambio (int A[fil][col], int n, int B[fil][col])
+{int i, j, aux;
+	for(i=0;i<n/2;i++)
+		{for(j=0;j<n/2;j++)
+			{aux=A[i][j];
+			A[i][j]=B[i][j];
+			B[i][j]=aux;
+			}
+		}
+}
+
+void intercambio(telemento M[fil][col], int n)
+{int i, j;
+	for(i=0;i<n/2;i++)
+		{cambio(M[i][i].mat,n, M[n-1-i][n-1-i].mat);
+			}for(i=0;i<n/2;i++)
+				{cambio(M[n-1-i][i].mat,n, M[i][n-1-i].mat);
+				}
+			for(i=0;i<n/2;i++)
+			{cambio_dp(M[i][i].mat,n);
+			cambio_ds(M[	n-i-1][i].mat,n);
+			}
+}
+
+void mostrar(telemento M[fil][col], int n)
+{int i, j,k,l;
+	for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{for(k=0;k<n;k++)
+				{for(l=0;l<n;l++)
+					{cout<<M[i][j].mat[k][l]<<" ";
+					}cout<<" ";
+				}cout<<endl;
+			}cout<<endl;
+		}cout<<endl;
+}
+
