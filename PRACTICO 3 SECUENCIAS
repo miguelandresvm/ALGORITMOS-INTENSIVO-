@@ -1,0 +1,159 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+#define fil 10
+#define col 10
+using namespace std;
+
+void cargarVec(int n, int vec1[]);
+void funcion1(int n, int vec1[]);
+int invertirNum(int Num);
+void funcion2(int n, int vec1[]);
+int sumaDig(int n);
+void funcion3(int n, int vec1[]);
+void funcion4(int n, int vec1[]);
+void cargar(int mat[fil][col], int nfil, int ncol, int vec[]);
+void mostrar(int mat[fil][col], int nfil, int ncol);
+int main(){
+	int opcion,z;
+	int matriz1[fil][col], n, m,vec[50];
+
+		do{
+		system("cls");
+		cout<<"Introducir nro de filas: ";
+		cin>>n;
+		cout<<"Introducir nro de columnas: ";
+		cin>>m;
+		cout<<endl;
+		z=n*m;
+
+		cout<<"******* M E N U *********";
+		cout<<endl<<"1.- Cargar con secuencia 6,9,12,15";
+		cout<<endl<<"2.- Cargar con secuencia 1,4,9,61,52";
+		cout<<endl<<"3.- Cargar con secuencia 1,2,4,8,16";
+		cout<<endl<<"4.- Cargar con secuencia 1,2,4,8";
+		cout<<endl<<"0.- Salir";
+		cout<<endl<<"Seleccionar opcion: ";
+		cin >> opcion;
+		getchar();
+		switch(opcion){
+			case 1:	funcion1(z,vec);
+					cargar(matriz1,n,m,vec);
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+			case 2: funcion2(z,vec);
+					cargar(matriz1,n,m,vec);
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+			case 3: funcion3(z,vec);
+					cargar(matriz1,n,m,vec);
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+			case 4: funcion4(z,vec);
+					cargar(matriz1,n,m,vec);
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+		}
+	}while(opcion !=0);
+	getch();
+	return(1);
+}
+
+
+void cargarVec(int n, int vec1[]){
+	int i;
+	for(i=0; i<n; i++){
+		cout<<"Introduzca elemento "<<i+1<<": ";
+		cin>>vec1[i];
+	}
+}
+
+void funcion1(int n, int vec1[]){
+	int i,Num=3;
+
+	for(i=0;i<n;i++){
+		Num=Num+3;
+		vec1[i]=Num;
+	}
+}
+
+int invertirNum(int Num){
+	int inv=0;
+		while (Num != 0){
+			inv = inv * 10;
+			inv = inv + Num % 10;
+			Num = Num / 10;
+	}
+	return(inv);
+}
+
+void funcion2(int n, int vec1[]){
+	int i,Num,c=1;
+
+	for(i=0;i<n;i++){
+		Num=powf(c,2);
+		c++;
+		Num=invertirNum(Num);
+		vec1[i]=Num;
+	}
+}
+
+int sumaDig(int n){
+	int d,s=0;
+
+	while(n>0){
+		d=n%10;
+		n=n/10;
+		s=s+d;
+	}
+	return(s);
+}
+
+void funcion3(int n, int vec1[]){
+	int d=1, i,Num=0;
+
+	for(i=0;i<n;i++){
+		Num=Num+d;
+		d=sumaDig(Num);
+		vec1[i]=Num;
+	}
+}
+
+void funcion4(int n, int vec1[]){
+	int d=1, i,Num=0;
+
+	for(i=0;i<n;i++){
+		Num=Num+d;
+		d=sumaDig(Num);
+		vec1[i]=d;
+	}
+}
+
+void cargar(int mat[fil][col], int nfil, int ncol, int vec[]){
+	int i, j, k=0;
+	for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            mat[i][j]=vec[k];
+			k++;
+		}
+	}
+}
+
+void mostrar(int mat[fil][col], int nfil, int ncol){
+    int i, j;
+	cout<<endl;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            cout<<mat[i][j]<<" ";
+        }
+    cout<<endl;
+    }
+} 
+
+
+
