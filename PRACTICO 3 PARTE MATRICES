@@ -1,0 +1,481 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include <ctype.h>
+#include<iomanip>
+#include"math.h"
+#define fil 10
+#define col 10
+
+using namespace std;
+
+float determinante(float Mat[fil][col],int n, int m);
+void cargar(int mat[fil][col], int nfil, int ncol);
+void mostrar(int mat[fil][col], int nfil, int ncol);
+void vector(int mat[fil][col], int nfil, int ncol, int vec[], int &k);
+void transpuesta(int mat[fil][col], int &nfil, int &ncol);
+void sumar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil, int ncol);
+void multiplicar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil1, int ncol1, int nfil2, int ncol2);
+void mostrarVec(int vec[], int n);
+bool verifPrimos(int n);
+void vecNoPrimos(int mat[fil][col], int nfil, int ncol, int vec[], int &k);
+void eliminarRepetidos(int vec[], int &n);
+void ordenar(int vec[], int &n);
+void cargarXYZ(int mat[fil][col], int n, int m);
+bool cuadradomagico(int mat[fil][col],int n);
+void caracol(int m[fil][col], int n);
+void cargar1(float M[fil][col],int n,int m);
+void mostrar1(float M[fil][col],int n,int m);
+float cofactor(float Mat[fil][col],int a,int b,int n,int m);
+float determinante(float Mat[fil][col],int n, int m);
+void matrizcofactores(float M[fil][col],float C[fil][col],int n,int m);
+void traspuesta(float M[fil][col],float T[fil][col],int n,int m);
+void inversa(float T[fil][col],float I[fil][col],int n,int m,float d);
+void mult(float A[fil][col],float B[fil][col],float C[fil][col],int n, int m,int o);
+
+
+
+
+
+
+int main(){
+	int opcion,c;
+	int matriz1[fil][col], matriz2[fil][col], matriz3[fil][col], n, m,vec[50], k,o,p;
+	float M[fil][col],C[fil][col],d,T[fil][col],I[fil][col];
+    float X[fil][col];
+
+		do{
+		system("cls");
+		cout<<"******* M E N U *********";
+		cout<<endl<<"1.- Matriz transpuesta";
+		cout<<endl<<"2.- Matriz inversa";
+		cout<<endl<<"3.- Suma de 2 matrices";
+		cout<<endl<<"4.- Multiplicacion de 2 matrices";
+		cout<<endl<<"5.- Verificar si una matriz es magica";
+		cout<<endl<<"6.- Cargar una matriz cuadrada de forma circular con los primeros números naturales";
+	//	cout<<endl<<"7.- Cargar una matriz cuadrada por diagonales con los primeros números naturales";
+		cout<<endl<<"0.- Salir";
+		cout<<endl<<"Seleccionar opcion: ";
+		cin >> opcion;
+		getchar();
+		switch(opcion){
+			case 1: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cargar(matriz1,n,m);
+					cout<<"Matriz: ";
+					mostrar(matriz1,n,m);
+					transpuesta(matriz1,n,m);
+					cout<<"Matriz transpuesta: ";
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+			case 2: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cargar1(M,n,m);
+					cout<<"La matriz es: ";
+					mostrar1(M,n,m);
+					d=determinante(M,n,m);
+					matrizcofactores(M,C,n,m);
+					traspuesta(C,T,n,m);
+					inversa(T,I,n,m,d);
+					cout<< "La matriz inversa es: ";
+					mostrar1(I,n,m);
+					getch();
+					break;
+			case 3: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cout<<"Introducir matriz 1: ";
+					cargar(matriz1,n,m);
+					cout<<"Introducir matriz 2: ";
+					cargar(matriz2,n,m);
+					sumar(matriz1,matriz2,matriz3,n,m);
+					cout<<"Matriz 1: ";
+					mostrar(matriz1,n,m);
+					cout<<"Matriz 2: ";
+					mostrar(matriz2,n,m);
+					cout<<"Matriz resultante: ";
+					mostrar(matriz3,n,m);
+					getch();
+					break;
+			case 4: cout<<"Introducir nro de filas: ";
+					cin>>n;
+					cout<<"Introducir nro de columnas: ";
+					cin>>m;
+					cout<<"Introducir matriz 1: ";
+					cargar(matriz1,n,m);
+					cout<<"Introducir nro de filas: ";
+					cin>>o;
+					cout<<"Introducir nro de columnas: ";
+					cin>>p;
+					cout<<"Introducir matriz 2: ";
+					cargar(matriz2,o,p);
+					multiplicar(matriz1,matriz2,matriz3,n,m,o,p);
+					cout<<"Matriz 1: ";
+					mostrar(matriz1,n,m);
+					cout<<"Matriz 2: ";
+					mostrar(matriz2,o,p);
+					cout<<"Matriz resultante: ";
+					mostrar(matriz3,n,p);
+					getch();
+					break;
+			case 5: cout<<"Introducir nro de filas y columnas: ";
+					cin>>n;
+					m=n;
+					cargar(matriz1,n,m);
+					mostrar(matriz1,n,m);
+					if(cuadradomagico(matriz1,n)==true){
+					cout<<endl<<"La matriz es magica";
+					}
+					else{
+					cout<<endl<<"La matriz NO es magica";
+					}
+					getch();
+					break;
+			case 6:	cout<<"Introducir nro de filas y columnas: ";
+					cin>>n;
+					m=n;
+					caracol(matriz1,n);
+					mostrar(matriz1,n,m);
+					getch();
+					break;
+
+		}
+	}while(opcion !=0);
+	getch();
+	return(1);
+}
+
+void cargar(int mat[fil][col], int nfil, int ncol){
+    int i, j;
+	cout<<endl;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            cout<<"Introducir elemento ["<<i<<","<<j<<"]: ";
+            cin>>mat[i][j];
+        }
+    }
+} 
+
+void mostrar(int mat[fil][col], int nfil, int ncol){
+    int i, j;
+	cout<<endl;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            cout<<mat[i][j]<<" ";
+        }
+    cout<<endl;
+    }
+} 
+
+void vector(int mat[fil][col], int nfil, int ncol, int vec[], int &k){
+	int i, j;
+	k=0;
+	for(i=0;i<nfil;i++){
+		for(j=0;j<ncol;j++){
+			vec[k]=mat[i][j];
+                k++;
+		}
+	}
+}
+
+void transpuesta(int mat[fil][col], int &nfil, int &ncol){
+	int i, j, vec[50], k, aux;
+	vector(mat,nfil,ncol,vec,k);
+	k=0;
+	for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            mat[j][i]=vec[k];
+			k++;
+		}
+	}
+	aux=nfil;
+	nfil=ncol;
+	ncol=aux;
+}
+
+void sumar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil, int ncol){
+	int i, j;
+	for(i=0;i<nfil;i++){
+		for(j=0;j<ncol;j++){
+			mat3[i][j]=mat1[i][j]+mat2[i][j];
+		}
+	}
+}
+void multiplicar(int mat1[fil][col],int mat2[fil][col],int mat3[fil][col], int nfil1, int ncol1, int nfil2, int ncol2){
+	int i, j, a, b, resultado;
+	for(i=0;i<nfil1;i++){
+		for(j=0;j<ncol2;j++){
+			resultado=0;
+			for(a=0;a<ncol1;a++){
+					resultado=resultado+(mat1[i][a]*mat2[a][j]);
+				}
+				mat3[i][j]=resultado;
+			}
+		}
+}
+
+void mostrarVec(int vec[], int n){
+    int i;
+    cout<<endl<<endl<<"vector: "<<endl;
+    for(i=0;i<n;i++){
+        cout<<vec[i]<<" ";
+    }
+}
+
+bool verifPrimos(int n){
+    int i;
+    bool k = true;
+    for(i=2;i<n;i++){
+        if(n%i==0){
+            k=false;
+        }
+    }
+    return(k);
+}
+
+void vecNoPrimos(int mat[fil][col], int nfil, int ncol, int vec[], int &k){
+    int i, j;
+    k=0;
+    for(i=0;i<nfil;i++){
+        for(j=0;j<ncol;j++){
+            if(verifPrimos(mat[i][j])==false){
+                vec[k]=mat[i][j];
+                k++;
+            }
+        }
+    }
+}
+
+void eliminarRepetidos(int vec[], int &n){
+    int i,j,k;
+    for(i=0;i<n;i++){
+        for(j=i+1;j<n;j++){
+            if(vec[i]==vec[j]){
+                for(k=j;k<n-1;k++){
+                    vec[k]=vec[k+1];
+                }
+                n--;
+                i--;
+            }
+        }
+    }
+}
+
+void ordenar(int vec[], int &n){
+    int i, j, aux;
+    for(i=0;i<n;i++){
+        for(j=i+1;j<n;j++){
+            if(vec[i]>vec[j]){
+                aux=vec[i];
+                vec[i]=vec[j];
+                vec[j]=aux;
+            }
+        }
+    }
+}
+
+void cargarXYZ(int mat[fil][col], int n, int m){
+    int i, a,c=1;
+    a=0;
+    for(a=0;a<n;a++){
+        for(i=a;i<n-a;i++){
+            mat[a][i]=c++;
+        }
+        for(i=a+1;i<n-a;i++){
+            mat[i][n-a-1]=c++;
+        }
+        for(i=n-a-1;i>=a;i++){
+            mat[n-a-1][i]=c++;
+        }
+        for(i=a;i<n-a;i++){
+            mat[i][a]=c++;
+        }
+    }
+    if(n%2!=0){
+        mat[(n-1)/2][(n-1)/2]=c;
+    }
+}
+bool cuadradomagico(int mat[fil][col],int n)
+{	int s=0,aux=0;
+	for(int i=0;i<n;i++)
+	{
+		s=s+mat[0][i];
+	}
+	for(int i=0;i<n;i++)
+	{
+		aux=0;
+		for(int j=0;j<n;j++)
+		{
+			aux=aux+mat[i][j];
+		}
+		if(aux!=s)
+		{
+			return false;
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		aux=0;
+		for(int j=0;j<n;j++)
+		{
+			aux=aux+mat[j][i];
+		}
+		if(aux!=s)
+		{
+			return false;
+		}
+	}
+	aux=0;
+	for(int i=0;i<n;i++)
+	{
+		aux=aux+mat[i][i];
+	}
+	if(aux!=s)
+	{
+		return false;
+	}
+	else 
+	{
+		return true;
+	}
+}
+
+void caracol(int m[fil][col], int n){
+	int i, j, c = 1;
+	for (i = 0; i < n / 2; i++){
+		for (j = i; j < n - i; j++){
+			m[i][j] = c;
+			c++;
+		}
+		for (j = i; j < n - 1-i; j++){
+			m[j+1][n-1 - i] = c;
+			c++;
+		}
+		c--;
+		for (j = n - 1 - i; j > i; j--){
+			m[n-1-i][j] = c;
+			c++;
+		}
+		for (j = n - 1 - i; j > i; j--){
+			m[j][i] = c;
+			c++;
+		}
+	}
+	if (n % 2 != 0){
+		m[n / 2][n / 2] = n*n;
+	}
+}
+
+void cargar1(float M[fil][col],int n,int m){
+	int i, j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++){
+			cout<<"Introducir elemento ["<<i<<","<<j<<"]: ";
+            cin>>M[i][j];
+		}
+    }
+}
+void mostrar1(float M[fil][col],int n,int m){
+	int i,j;
+	cout<<endl;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++){
+            cout<< setw(4) <<M[i][j]<<"    ";
+        cout<<" ";
+		}
+		cout<<endl;
+    }
+}
+float cofactor(float Mat[fil][col],int a,int b,int n,int m)
+{
+	if(n>1)
+		{
+		float A[fil][col];
+		int c=0,d=0;
+		for(int i=0;i<n;i++)
+		{
+			if(i!=a)
+			{
+				d=0;
+				for (int j=0;j<m;j++)
+				{
+					if(j!=b)
+					{
+						A[c][d]=Mat[i][j];
+						d++;
+					}
+				}
+				c++;
+			}
+		}
+
+			return (determinante(A,n-1,n-1)*( powf(-1,a+b+2) ));
+	}
+	else
+        return 1;
+}
+float determinante(float Mat[fil][col],int n, int m)
+{
+    int i;
+    float d=0;
+    for(i=0;i<m;i++)
+    {
+        d=d+(( Mat[0][i] )*( cofactor(Mat,0,i,n,m) ));
+    }
+    return d;
+}
+void matrizcofactores(float M[fil][col],float C[fil][col],int n,int m)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            C[i][j]=cofactor(M,i,j,n,m);
+    }
+}
+void traspuesta(float M[fil][col],float T[fil][col],int n,int m)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            T[i][j]=M[j][i];
+    }
+}
+void inversa(float T[fil][col],float I[fil][col],int n,int m,float d)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+            I[i][j]=T[i][j]/d;
+    }
+}
+void mult(float A[fil][col],float B[fil][col],float C[fil][col],int n, int m,int o)
+{
+    int i,j;
+    float a=1,d;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<o;j++)
+        {
+            a=0;
+            for(int k=0;k<m;k++)
+                a=a+A[i][k]*B[k][j];
+            d=a;
+            if( a-d<0.5 )
+                C[i][j]=d;
+            else
+                C[i][j]=d+1;
+        }
+    }
+}
