@@ -1,0 +1,63 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#define fil 10
+#define col 10
+
+using namespace std;
+
+void cargar(int mat[fil][col],int n);
+void mostrar(int mat[fil][col],int n);
+int promedio(int mat[fil][col],int n);
+
+
+
+int main ()
+{int mat[fil][col],n,a;
+ cout<<"Ingrese tamano de la matriz: ";
+ cin>>n;
+ cargar(mat,n);
+ mostrar(mat,n);
+ a=promedio(mat,n);
+ cout<<"El promedio de la diagonal principal es: "<<a;
+ getch();
+ return 0;
+}
+
+void cargar(int mat[fil][col],int n)
+{int i,j;
+ for(i=0;i<n;i++)
+	{for(j=0;j<n;j++)
+		{cout<<"Ingrese elemento: ";
+		 cin>>mat[i][j];
+		}
+	}
+}
+void mostrar(int mat[fil][col], int n)
+{
+    int i, j;
+	cout<<endl;
+    for(i=0;i<n;i++)
+		{for(j=0;j<n;j++)
+			{cout<<mat[i][j]<<" ";
+			}
+    cout<<endl;
+		}
+} 
+
+
+int promedio(int mat[fil][col],int n)
+{int i,j;
+ float p=0,s=0;
+ for(i=0;i<n;i++)
+	{for(j=0;j<n;j++)
+		{if(i==j)
+			{
+				s=s+mat[i][j];
+			}
+		}
+	}
+  p=s/n;
+  return p;
+}
+
