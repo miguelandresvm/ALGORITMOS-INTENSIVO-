@@ -1,0 +1,45 @@
+void agregarProducto()
+{
+	Venta reg;
+	FILE *ptr;
+	ptr=fopen("Producto.dat","rb");
+	if(ptr==NULL)
+	{
+		cout<<"el archivo no existe";
+		ptr=fopen("Producto.dat","wb");
+		fclose(ptr);
+	}
+	else
+	{   
+		fclose(ptr);
+		ptr=fopen("Producto.dat","ab");
+		cout<<"Ingresa id: ";
+	    cin>>reg.id;
+		cout<<"Ingresar nombre: ";
+	    getline(cin,reg.nombre);
+	    getline(cin,reg.nombre);
+		cout<<"Ingresar precio: ";
+	    cin>>reg.precio;
+		cout<<"Ingresar costo: ";
+	    cin>>reg.costo;
+		cout<<"Ingresar cantidad: ";
+	    cin>>reg.cantidad;
+		fwrite(&reg,sizeof(reg),1,ptr);
+        fclose(ptr);
+	}
+}
+void listarProducto()
+{
+	Venta reg;
+	FILE *ptr;
+	ptr=fopen("Producto.dat","rb");
+	cout<<endl<<"        ***  REPORTE VENTA  ***";
+	cout<<endl<<"Id    	Nombre	     Precio	  Cantidad     Total";
+	fread(&reg,sizeof(reg),1,ptr);
+	while(!feof(ptr))
+	 {
+		 cout<<endl<<reg.id<<"	"<<reg.nombre<<"    	"<<reg.precio<<"	      "<<reg.cantidad<<"           "<<reg.cantidad*reg.precio;
+	    fread(&reg,sizeof(reg),1,ptr);
+	 }
+	fclose(ptr);
+}
